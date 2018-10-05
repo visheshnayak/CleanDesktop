@@ -1,0 +1,8 @@
+<configuration>
+	<filetypes>
+		<file prefix="DBS_T_">D:\\Vishesh\\Training\\DB\\</file>
+		<file prefix="DBS_W_">D:\\Vishesh\\Work\\DB\\Scripts\\</file>
+		<file prefix="DOC_W_">D:\\Vishesh\\Work\\Documents\\</file>
+		<file prefix="DOC_T_">D:\\Vishesh\\Other\\Documents\\</file>
+	</filetypes>
+</configuration>

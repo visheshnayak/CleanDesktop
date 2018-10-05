@@ -1,6 +1,8 @@
 import shutil
 import os
 
+from xml.dom import minidom
+
 #This scipt clears the desktop and relocates the files according to the name
 
 #defines the path to desktop
@@ -13,23 +15,19 @@ for (dirpath, dirnames, filenames) in os.walk(desktopPath):
 	listOfEntities.extend(filenames)
 	break
 
-for file in listOfEntities :
-	#conditions according to the prefixes
+#read the config file
+config = minidom.parse('config.xml')
 
-	#DBScript for work
-	if file[:6] == 'DBS_W_':
-		shutil.move(desktopPath + file, 'D:\\Vishesh\\Work\\DB\\Scripts\\' + file)
-		print ('Moved ' + file)
-	
-	#Document for work
-	elif file[:6] == 'DOC_W_':
-		shutil.move(desktopPath + file, 'D:\\Vishesh\\Work\\Documents\\' + file)
-		print ('Moved ' + file)
-	
-	#DBScript for Training 
-	elif file[:6] == 'DBS_T_':
-		shutil.move(desktopPath + file, 'D:\\Vishesh\\Training\\DB\\' + file)
-		print ('Moved ' + file)
-	
-	else:
-		print('Uncategorized ' + file)
+filetypes = config.getElementsByTagName('file')
+
+#get the prefixes
+for files in filetypes:
+	prefix = files.attributes['prefix'].value
+
+	for file in listOfEntities :
+		#conditions according to the prefixes
+
+		#compare the prefixes from the files and from config
+		if file[:6] == prefix:
+			shutil.move(desktopPath + file, files.firstChild.data + file)
+			print ('moved ' + file)
