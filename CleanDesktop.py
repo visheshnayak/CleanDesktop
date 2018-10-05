@@ -1,16 +1,15 @@
 import shutil
-
-from os import walk
+import os
 
 #This scipt clears the desktop and relocates the files according to the name
 
-#defines the path
-desktopPath = 'C:\\Users\\visheshn\\Desktop\\'
+#defines the path to desktop
+desktopPath = os.path.join('C:\\', os.environ['HOMEPATH'], 'Desktop\\')
 
 listOfEntities = []
 
 #gets the list of all the files on the directory
-for (dirpath, dirnames, filenames) in walk(desktopPath):
+for (dirpath, dirnames, filenames) in os.walk(desktopPath):
 	listOfEntities.extend(filenames)
 	break
 
