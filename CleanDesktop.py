@@ -1,33 +1,44 @@
 import shutil
 import os
+import logging
+import datetime
+import sys
 
 from xml.dom import minidom
 
 #This scipt clears the desktop and relocates the files according to the name
 
-#defines the path to desktop
-desktopPath = os.path.join('C:\\', os.environ['HOMEPATH'], 'Desktop\\')
+try:
+	#sets the logging component
+	logging.basicConfig(filename='App.log', level=logging.DEBUG)
+	logging.info('Started the CleanDesktop script at ' + str(datetime.datetime.time(datetime.datetime.now())))
 
-listOfEntities = []
+	#defines the path to desktop
+	desktopPath = os.path.join('C:\\', os.environ['HOMEPATH'], 'Desktop\\')
 
-#gets the list of all the files on the directory
-for (dirpath, dirnames, filenames) in os.walk(desktopPath):
-	listOfEntities.extend(filenames)
-	break
+	listOfEntities = []
 
-#read the config file
-config = minidom.parse('config.xml')
+	#gets the list of all the files on the directory
+	for (dirpath, dirnames, filenames) in os.walk(desktopPath):
+		listOfEntities.extend(filenames)
+		break
 
-filetypes = config.getElementsByTagName('file')
+	#read the config file
+	config = minidom.parse('config.xml')
 
-#get the prefixes
-for files in filetypes:
-	prefix = files.attributes['prefix'].value
+	filetypes = config.getElementsByTagName('file')
 
-	for file in listOfEntities :
-		#conditions according to the prefixes
+	#get the prefixes
+	for files in filetypes:
+		prefix = files.attributes['prefix'].value
 
-		#compare the prefixes from the files and from config
-		if file[:6] == prefix:
-			shutil.move(desktopPath + file, files.firstChild.data + file)
-			print ('moved ' + file)
+		for file in listOfEntities :
+			#conditions according to the prefixes
+
+			#compare the prefixes from the files and from config
+			if file[:6] == prefix:
+				shutil.move(desktopPath + file, files.firstChild.data + file)
+				logging.info('Moved ' + file)
+
+except:
+	print(sys.exc_info()[0])
