@@ -34,11 +34,17 @@ try:
 
 		for file in listOfEntities :
 			#conditions according to the prefixes
+			try:
+				#compare the prefixes from the files and from config
+				if file[:6] == prefix:
+					shutil.move(desktopPath + file, files.firstChild.data + file)
+					logging.info('Moved ' + file)
+			except PermissionError as pe:
+				logging.info('Exception occurred at ' + str(datetime.datetime.time(datetime.datetime.now())) + ' : The file is open in some other application. Hence, couldn\'t be moved')
+			except:
+				logging.info('Exception occurred at ' + str(datetime.datetime.time(datetime.datetime.now())) + ' : ' +  sys.exc_info()[0])
 
-			#compare the prefixes from the files and from config
-			if file[:6] == prefix:
-				shutil.move(desktopPath + file, files.firstChild.data + file)
-				logging.info('Moved ' + file)
+
 
 except:
 	print(sys.exc_info()[0])
