@@ -5,4 +5,5 @@
 		<file prefix="DOC_W_">D:\\Vishesh\\Work\\Documents\\</file>
 		<file prefix="DOC_T_">D:\\Vishesh\\Other\\Documents\\</file>
 	</filetypes>
+	<keepprefix>0</keepprefix>
 </configuration>

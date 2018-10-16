@@ -28,23 +28,31 @@ try:
 
 	filetypes = config.getElementsByTagName('file')
 
+	keepPrefix = True if str(config.getElementsByTagName('keepprefix')[0].firstChild.nodeValue) == '1' else False
+
 	#get the prefixes
 	for files in filetypes:
 		prefix = files.attributes['prefix'].value
 
 		for file in listOfEntities :
 			#conditions according to the prefixes
-			try:
+			try :
 				#compare the prefixes from the files and from config
-				if file[:6] == prefix:
-					shutil.move(desktopPath + file, files.firstChild.data + file)
-					logging.info('Moved ' + file)
-			except PermissionError as pe:
+				if file[:6] == prefix :
+
+					#added to get the name of file without the prefix
+					if keepPrefix == False :
+						nameWithoutPrefix = file[6:]
+					else :
+						nameWithoutPrefix = file
+
+					shutil.move(desktopPath + file, files.firstChild.data + nameWithoutPrefix)
+					logging.info('Moved ' + nameWithoutPrefix)
+
+			except PermissionError as pe :
 				logging.info('Exception occurred at ' + str(datetime.datetime.time(datetime.datetime.now())) + ' : The file is open in some other application. Hence, couldn\'t be moved')
-			except:
+			except :
 				logging.info('Exception occurred at ' + str(datetime.datetime.time(datetime.datetime.now())) + ' : ' +  sys.exc_info()[0])
 
-
-
-except:
+except :
 	print(sys.exc_info()[0])
